@@ -30,3 +30,4 @@ dist-ssr
 *.fig
 __tests__
 .env
+audiophile.session.sql

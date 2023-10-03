@@ -6,6 +6,7 @@ import axios from "axios";
 function App() {
     const [data, setData] = useState<unknown>([]);
     const [dataLoaded, setDataLoaded] = useState<boolean>(false)
+    const apiBaseUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL
     useEffect(() => {
         axios.get("http://localhost:4000/api/v1/products")
             .then(function (response){
@@ -20,7 +21,7 @@ function App() {
                 }
             })
     }, []);
-
+    console.log(apiBaseUrl)
     return (
         <>
             <Auth0Provider
