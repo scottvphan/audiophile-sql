@@ -9,7 +9,6 @@ const CartContainer = styled.div`
     position: absolute;
     top: 10%;
     left: 65%;
-    /* width:15%; */
     background-color: white;
     z-index: 11;
     padding: 1rem;

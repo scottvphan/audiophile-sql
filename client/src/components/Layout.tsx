@@ -12,7 +12,7 @@ import HamburgerMenu from "./HamburgerMenu";
 import axios from "axios";
 import EmailVerificationModal from "./EmailVerificationModal";
 
-export default function Layout() {
+export default function Layout({apiBaseUrl}:any) {
     const { isAuthenticated, user, isLoading } = useAuth0();
     const [formData, setFormData] = useState<any>("");
     const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
@@ -55,13 +55,13 @@ export default function Layout() {
             user_id: userId
         };
         console.log(dataPosted)
-        await axios.post("http://localhost:4000/api/v1/orders", dataPosted);
+        await axios.post(`${apiBaseUrl}:4000/api/v1/orders`, dataPosted);
     };
 
     const getUserId = async () => {
         const userEmail = user?.email;
         await axios
-            .get(`http://localhost:4000/api/v1/user/${userEmail}`)
+            .get(`${apiBaseUrl}:4000/api/v1/user/${userEmail}`)
             .then((res) => {
                 console.log(res.data);
                 setUserId(res.data[0].user_id);
@@ -72,7 +72,7 @@ export default function Layout() {
         const userData = {
             userId: userId,
         };
-        axios.post("http://localhost:4000/api/v1/cart", userData);
+        axios.post(`${apiBaseUrl}:4000/api/v1/cart`, userData);
     };
 
     const updateCart = async () => {
@@ -81,7 +81,7 @@ export default function Layout() {
             cartData: cart,
         };
         if(cart){
-            await axios.patch("http://localhost:4000/api/v1/cart", userCart);
+            await axios.patch(`${apiBaseUrl}:4000/api/v1/cart`, userCart);
         }
     };
 
@@ -89,7 +89,7 @@ export default function Layout() {
         console.log("getting cart");
         try {
             const response = await axios.get(
-                `http://localhost:4000/api/v1/cart/${userId}`
+                `${apiBaseUrl}:4000/api/v1/cart/${userId}`
             );
             console.log(response.data);
             if(response.data){
@@ -102,7 +102,7 @@ export default function Layout() {
             }
         } catch (error) {
             // Handle errors here
-            console.error("Error in getCart:", error);
+            console.error(`Error in getCart:`, error);
         }
     };
 
@@ -112,7 +112,7 @@ export default function Layout() {
             email: user?.email,
             email_verified: user?.email_verified,
         };
-        await axios.post("http://localhost:4000/api/v1/user", userData);
+        await axios.post(`${apiBaseUrl}:4000/api/v1/user`, userData);
         setUserId(-1)
     };
 
@@ -126,13 +126,13 @@ export default function Layout() {
 
         try {
             await axios.get(
-                `http://localhost:4000/api/v1/verifications/${userId}`
+                `${apiBaseUrl}:4000/api/v1/verifications/${userId}`
             );
         } catch (error: any) {
             if (error.response && error.response.status === 404) {
                 try {
                     await axios.post(
-                        `http://localhost:4000/api/v1/verifications/`,
+                        `${apiBaseUrl}:4000/api/v1/verifications/`,
                         userData
                     );
                     console.log(userData);
@@ -150,7 +150,7 @@ export default function Layout() {
     const getShippingData = async () => {
         console.log(formData);
         axios
-            .get(`http://localhost:4000/api/v1/orders/rates`, {
+            .get(`${apiBaseUrl}:4000/api/v1/orders/rates`, {
                 params: {
                     form: JSON.stringify(formData),
                 },
@@ -259,6 +259,7 @@ export default function Layout() {
             {isEmailVerificationOpen && userId !== 0 && (
                 <>
                     <EmailVerificationModal
+                        apiBaseUrl = {apiBaseUrl}
                         userId={userId}
                         setIsEmailVerificationOpen={setIsEmailVerificationOpen}
                     />

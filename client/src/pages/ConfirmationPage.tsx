@@ -32,6 +32,7 @@ const CheckoutContainer = styled.div`
         flex-direction: column;
         width: 100%;
     }
+    height:80vh;
 `;
 const CheckoutSummaryContainer = styled.div`
     width: 80%;

@@ -13,6 +13,11 @@ export default defineConfig({
   define: {
     'process.env': {},
   },
+  server: {
+    host: true,
+    strictPort: true,
+    port:8080
+  },
   test: {
     globals: true,
     environment: 'jsdom',

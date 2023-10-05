@@ -54,14 +54,14 @@ const EmailParagraph = styled.h6`
     font-size: 0.8rem;
     margin: 1.5rem 0;
 `;
-export default function EmailVerificationModal({ userId }: any) {
-    const { isAuthenticated, user } = useAuth0();
+export default function EmailVerificationModal({ userId, apiBaseUrl }: any) {
+    const { user } = useAuth0();
     const [isVerificationSent, setIsVerificatonSent] = useState<boolean>(false);
     const [authToken, setAuthToken] = useState<unknown>("");
 
     function checkToken() {
         axios
-            .get(`http://localhost:4000/api/v1/verifications/${userId}`)
+            .get(`${apiBaseUrl}:4000/api/v1/verifications/${userId}`)
             .then((res) => {
                 console.log(res.data);
                 if (res.data.is_token_expired === false) {
@@ -89,7 +89,7 @@ export default function EmailVerificationModal({ userId }: any) {
             };
             axios
                 .post(
-                    "http://localhost:4000/api/v1/verifications/email",
+                    `${apiBaseUrl}:4000/api/v1/verifications/email`,
                     postData
                 )
                 .then((res) => {
@@ -102,7 +102,7 @@ export default function EmailVerificationModal({ userId }: any) {
             };
             // Creates a new token
             axios.post(
-                `http://localhost:4000/api/v1/verifications/token`,
+                `${apiBaseUrl}:4000/api/v1/verifications/token`,
                 userData
             );
             // handleVerification()

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import SVG from "react-inlinesvg";
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "/assets/shared/desktop/logo.svg";
 import hamburger from "/assets/hamburger.svg";
 import { StyledSVG, UnStyledLink } from "./StyledComponents";
@@ -91,10 +91,6 @@ export default function Navbar({
     isCartOpen,
     setIsHamburgerOpen,
 }: any) {
-    const location = useLocation();
-    
-    const isCart = location.pathname.includes('cart')
-    const isCheckout = location.pathname.includes('checkout')
     const { isAuthenticated } = useAuth0();
     function handleCart() {
         if (Object.keys(cart).length !== 0) {

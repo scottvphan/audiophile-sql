@@ -4,7 +4,7 @@ import SVG from "react-inlinesvg/esm";
 import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect } from "react";
 import CartItemComponent from "./CartItemComponent";
-import { OrangeButton, UnStyledLink } from "./StyledComponents";
+import { OrangeButton} from "./StyledComponents";
 
 const CheckoutModalContainer = styled.div`
     background-color: white;
@@ -185,9 +185,7 @@ export default function CheckoutModal({
                     <GrandTotalSubHeading>$ {totalPrice}</GrandTotalSubHeading>
                 </SummaryRightContainer>
             </SummaryContainer>
-            {/* <UnStyledLink onClick={handleCheckout} to={"/"}> */}
                 <OrangeButton onClick={handleCheckout}>CLOSE</OrangeButton>
-            {/* </UnStyledLink> */}
         </CheckoutModalContainer>
     );
 }
