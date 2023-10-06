@@ -235,7 +235,7 @@ export default function ProductDetails(props: any) {
     const [mappedRecommended, setMappedRecommended] = useState<any>("");
     const { cart, setCart, setIsCartOpen } = useLayoutOutletContext();
     const [itemAmount, setItemAmount] = useState<number>(0);
-    console.log(data)
+    
     useEffect(() => {
         const mappedData = data.includes.map((data: any) => {
             return (

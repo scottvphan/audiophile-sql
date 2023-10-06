@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import SVG from 'react-inlinesvg'
 
-export default function ProductList() {
-
     const ProductListContainer = styled.div`
         background-color: white;
     `;
@@ -44,6 +42,8 @@ export default function ProductList() {
         align-items: center;
         gap: 10px;
     `;
+
+export default function ProductList() {
 
     return (
         <ProductListContainer>
