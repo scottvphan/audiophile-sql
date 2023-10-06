@@ -38,7 +38,7 @@ export default function Layout({apiBaseUrl}:any) {
     const [isEmailVerificationOpen, setIsEmailVerificationOpen] =
         useState<boolean>(false);
     const [userId, setUserId] = useState<number>(0);
-
+    const [isUserIdLoaded, setIsUserIdLoaded] = useState<boolean>(false);
     const postOrder = async (tax: number) => {
         console.log(formData)
         const dataPosted = {
@@ -55,13 +55,13 @@ export default function Layout({apiBaseUrl}:any) {
             user_id: userId
         };
         console.log(dataPosted)
-        await axios.post(`${apiBaseUrl}:4000/api/v1/orders`, dataPosted);
+        await axios.post(`${apiBaseUrl}/api/v1/orders`, dataPosted);
     };
 
     const getUserId = async () => {
         const userEmail = user?.email;
         await axios
-            .get(`${apiBaseUrl}:4000/api/v1/user/${userEmail}`)
+            .get(`${apiBaseUrl}/api/v1/user/${userEmail}`)
             .then((res) => {
                 console.log(res.data);
                 setUserId(res.data[0].user_id);
@@ -72,7 +72,7 @@ export default function Layout({apiBaseUrl}:any) {
         const userData = {
             userId: userId,
         };
-        axios.post(`${apiBaseUrl}:4000/api/v1/cart`, userData);
+        axios.post(`${apiBaseUrl}/api/v1/cart`, userData);
     };
 
     const updateCart = async () => {
@@ -81,7 +81,7 @@ export default function Layout({apiBaseUrl}:any) {
             cartData: cart,
         };
         if(cart){
-            await axios.patch(`${apiBaseUrl}:4000/api/v1/cart`, userCart);
+            await axios.patch(`${apiBaseUrl}/api/v1/cart`, userCart);
         }
     };
 
@@ -89,7 +89,7 @@ export default function Layout({apiBaseUrl}:any) {
         console.log("getting cart");
         try {
             const response = await axios.get(
-                `${apiBaseUrl}:4000/api/v1/cart/${userId}`
+                `${apiBaseUrl}/api/v1/cart/${userId}`
             );
             console.log(response.data);
             if(response.data){
@@ -112,7 +112,7 @@ export default function Layout({apiBaseUrl}:any) {
             email: user?.email,
             email_verified: user?.email_verified,
         };
-        await axios.post(`${apiBaseUrl}:4000/api/v1/user`, userData);
+        await axios.post(`${apiBaseUrl}/api/v1/user`, userData);
         setUserId(-1)
     };
 
@@ -126,13 +126,13 @@ export default function Layout({apiBaseUrl}:any) {
 
         try {
             await axios.get(
-                `${apiBaseUrl}:4000/api/v1/verifications/${userId}`
+                `${apiBaseUrl}/api/v1/verifications/${userId}`
             );
         } catch (error: any) {
             if (error.response && error.response.status === 404) {
                 try {
                     await axios.post(
-                        `${apiBaseUrl}:4000/api/v1/verifications/`,
+                        `${apiBaseUrl}/api/v1/verifications/`,
                         userData
                     );
                     console.log(userData);
@@ -150,7 +150,7 @@ export default function Layout({apiBaseUrl}:any) {
     const getShippingData = async () => {
         console.log(formData);
         axios
-            .get(`${apiBaseUrl}:4000/api/v1/orders/rates`, {
+            .get(`${apiBaseUrl}/api/v1/orders/rates`, {
                 params: {
                     form: JSON.stringify(formData),
                 },
@@ -182,9 +182,8 @@ export default function Layout({apiBaseUrl}:any) {
     useEffect(() => {
         if (isAuthenticated) {
             addUser();
-            getUserId();
         }
-    }, [isAuthenticated, userId]);
+    }, [isAuthenticated]);
 
     useEffect(() => {
         // If Email is not verified, modal should be opened
@@ -208,11 +207,12 @@ export default function Layout({apiBaseUrl}:any) {
 
     useEffect(() => {
             if (userId !== 0 && userId !== undefined && userId !== -1) {
-                addCart();
-                checkVerification();
-                getCart();
-                console.log(userId)
-                console.log('??')
+                setIsUserIdLoaded(true)
+                if(!isUserIdLoaded){
+                    addCart();
+                    checkVerification();
+                    getCart();
+                }
             }
             if (userId === -1) {
                 getUserId();

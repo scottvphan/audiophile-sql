@@ -38,11 +38,11 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-export default function Index({ data, dataLoaded }: any) {
+export default function Index({ apiBaseUrl, data, dataLoaded }: any) {
     const { isLoading } = useAuth0();
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Layout apiBaseUrl={apiBaseUrl} />}>
                 <Route path="/" element={<HomePage />} />
                 <Route
                     path="/products"
