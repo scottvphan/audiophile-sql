@@ -92,6 +92,7 @@ export default function Navbar({
     setIsHamburgerOpen,
 }: any) {
     const { isAuthenticated } = useAuth0();
+    
     function handleCart() {
         if (Object.keys(cart).length !== 0) {
             setIsCartOpen(!isCartOpen);
@@ -103,6 +104,7 @@ export default function Navbar({
             <NavContainer>
                 <SVGContainer>
                     <HamburgerMenu
+                        id="hamburger-menu"
                         onClick={() => {
                             setIsHamburgerOpen(
                                 (prevState: boolean) => !prevState
@@ -110,21 +112,20 @@ export default function Navbar({
                         }}
                         src={hamburger}
                     />
-                    <UnStyledLink to={"/"}>
+                    <UnStyledLink to="/">
                         <StyledLogo src={logo} />
                     </UnStyledLink>
                 </SVGContainer>
                 <LinkContainer>
-                    <StyledLink to="/">HOME</StyledLink>
-                    <StyledLink to="/products/headphones">
-                        HEADPHONES
-                    </StyledLink>
-                    <StyledLink to="/products/speakers">SPEAKERS</StyledLink>
-                    <StyledLink to="/products/earphones">EARPHONES</StyledLink>
+                    <StyledLink id="home-link" to="/">HOME</StyledLink>
+                    <StyledLink id="headphones-link" to="/products/headphones">HEADPHONES</StyledLink>
+                    <StyledLink id="speakers-link" to="/products/speakers">SPEAKERS</StyledLink>
+                    <StyledLink id="earphones-link" to="/products/earphones">EARPHONES</StyledLink>
                 </LinkContainer>
                 <RightContainer>
                     {!isAuthenticated ? <LoginButton /> : <LogoutButton />}
                     <StyledSVG
+                        id="cart-icon"
                         onClick={handleCart}
                         src="/assets/shared/desktop/icon-cart.svg"
                     />

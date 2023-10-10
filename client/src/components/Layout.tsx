@@ -148,7 +148,7 @@ export default function Layout({apiBaseUrl}:any) {
     };
 
     const getShippingData = async () => {
-        console.log(formData);
+        console.log('calling shipping data using:', formData);
         axios
             .get(`${apiBaseUrl}/api/v1/orders/rates`, {
                 params: {
@@ -167,8 +167,9 @@ export default function Layout({apiBaseUrl}:any) {
                         serviceType: data.serviceType,
                     };
                 });
-                console.log(mappedRates);
-                setShippingData(mappedRates);
+                if(res.data.shippingRate.length > 0) {
+                    setShippingData(mappedRates);
+                }
                 setIsShippingDataLoaded(true);
             });
     };

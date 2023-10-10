@@ -86,21 +86,22 @@ export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation,
             },
             0
         );
+        console.log(shippingData.length)
         if(!shippingData){
             setProductTotal(total);
             const vat2 = parseFloat((total * 0.0625).toFixed(2));
             setTotalPrice((total + vat2 + 50).toFixed(2));
             setVat(vat2);
         } else{
+            console.log('has shipping amount')
             setProductTotal(total);
             const vat2 = parseFloat((total * 0.0625).toFixed(2));
             setTotalPrice((total + vat2 + shippingData[2].shippingAmount.amount).toFixed(2));
             setVat(vat2);
         }
-    }, [cart, shippingData, isConfirmation, shippingPrice, setTotalPrice]);
+    }, [cart, shippingData, isConfirmation, shippingPrice ]);
 
     function handleConfirmationButton(){
-        console.log('hi')
         setIsCheckoutModalOpen((prevCheckout: any) => !prevCheckout);
         postOrder(vat);
         setFormData(undefined);
@@ -164,4 +165,3 @@ export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation,
         </>
     );
 }
-<OrangeButton>BACK TO HOME</OrangeButton>

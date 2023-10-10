@@ -62,9 +62,9 @@ const ProductImage = styled.img`
 `;
 export default function ProductCardList({ handleMenu }: any) {
     return (
-        <ProductListContainer>
+        <ProductListContainer id="product-list-container">
             <CardListContainer>
-                <ProductCard onClick={handleMenu} to={"/products/headphones"}>
+                <ProductCard id="headphone-card" onClick={handleMenu} to={"/products/headphones"}>
                     <picture>
                         <source
                             media="(min-width:769px)"
@@ -82,7 +82,7 @@ export default function ProductCardList({ handleMenu }: any) {
                         <SVG src="/assets/shared/desktop/icon-arrow-right.svg" />
                     </ShopTextContainer>
                 </ProductCard>
-                <ProductCard onClick={handleMenu} to={"/products/speakers"}>
+                <ProductCard id="speaker-card" onClick={handleMenu} to={"/products/speakers"}>
                     <picture>
                         <source
                             media="(min-width:769px)"
@@ -100,7 +100,7 @@ export default function ProductCardList({ handleMenu }: any) {
                         <SVG src="/assets/shared/desktop/icon-arrow-right.svg" />
                     </ShopTextContainer>
                 </ProductCard>
-                <ProductCard onClick={handleMenu} to={"/products/earphones"}>
+                <ProductCard id="earphone-card" onClick={handleMenu} to={"/products/earphones"}>
                     <picture>
                         <source
                             media="(min-width:769px)"

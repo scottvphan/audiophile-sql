@@ -58,7 +58,7 @@ const StyledImg = styled.img`
 `;
 export default function AdComponent() {
     return (
-        <AdContainer>
+        <AdContainer id="ad-container">
             <TextContainer>
                 <Heading>
                     BRINGING YOU THE <StyledSpan>BEST</StyledSpan> AUDIO GEAR

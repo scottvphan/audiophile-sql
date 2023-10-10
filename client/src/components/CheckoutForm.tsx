@@ -267,7 +267,7 @@ export default function CheckoutForm({
                         <LabelContainer>
                             <StyledLabel htmlFor="name">Name</StyledLabel>
                             {errors.name && (
-                                <ErrorMessage htmlFor="name">
+                                <ErrorMessage id="name-error" htmlFor="name">
                                     {errors.name.message}
                                 </ErrorMessage>
                             )}
@@ -285,7 +285,7 @@ export default function CheckoutForm({
                                 Email Address
                             </StyledLabel>
                             {errors.email && (
-                                <ErrorMessage htmlFor="email">
+                                <ErrorMessage id="email-error" htmlFor="email">
                                     {errors.email.message}
                                 </ErrorMessage>
                             )}
@@ -303,7 +303,7 @@ export default function CheckoutForm({
                                 Phone Address
                             </StyledLabel>
                             {errors.phoneNumber && (
-                                <ErrorMessage htmlFor="phone">
+                                <ErrorMessage id="phone-error" htmlFor="phone">
                                     {errors.phoneNumber.message}
                                 </ErrorMessage>
                             )}
@@ -322,7 +322,7 @@ export default function CheckoutForm({
                         <LabelContainer>
                             <StyledLabel htmlFor="address">Address</StyledLabel>
                             {errors.address?.street && (
-                                <ErrorMessage htmlFor="address">
+                                <ErrorMessage id="address-error" htmlFor="address">
                                     {errors.address.street.message}
                                 </ErrorMessage>
                             )}
@@ -341,7 +341,7 @@ export default function CheckoutForm({
                                 ZIP Code
                             </StyledLabel>
                             {errors.address?.zipcode && (
-                                <ErrorMessage htmlFor="zipcode">
+                                <ErrorMessage id="zipcode-error" htmlFor="zipcode">
                                     {errors.address?.zipcode.message}
                                 </ErrorMessage>
                             )}
@@ -357,7 +357,7 @@ export default function CheckoutForm({
                         <LabelContainer>
                             <StyledLabel htmlFor="city">City</StyledLabel>
                             {errors.address?.city && (
-                                <ErrorMessage htmlFor="city">
+                                <ErrorMessage id="city-error" htmlFor="city">
                                     {errors.address?.city.message}
                                 </ErrorMessage>
                             )}
@@ -373,7 +373,7 @@ export default function CheckoutForm({
                         <LabelContainer>
                             <StyledLabel htmlFor="state">State</StyledLabel>
                             {errors.address?.state && (
-                                <ErrorMessage htmlFor="state">
+                                <ErrorMessage id="state-error" htmlFor="state">
                                     {errors.address?.state.message}
                                 </ErrorMessage>
                             )}
@@ -389,7 +389,7 @@ export default function CheckoutForm({
                         <LabelContainer>
                             <StyledLabel htmlFor="country">Country</StyledLabel>
                             {errors.address?.country && (
-                                <ErrorMessage htmlFor="country">
+                                <ErrorMessage id="country-error" htmlFor="country">
                                     {errors.address?.country.message}
                                 </ErrorMessage>
                             )}
@@ -453,7 +453,7 @@ export default function CheckoutForm({
                                         e-Money Number
                                     </StyledLabel>
                                     {errors.eMoneyNumber && (
-                                        <ErrorMessage htmlFor="eMoneyNumber">
+                                        <ErrorMessage id="emoney-error" htmlFor="eMoneyNumber">
                                             {errors.eMoneyNumber?.message}
                                         </ErrorMessage>
                                     )}
@@ -474,7 +474,7 @@ export default function CheckoutForm({
                                         e-Money Pin
                                     </StyledLabel>
                                     {errors.eMoneyPin && (
-                                        <ErrorMessage htmlFor="eMoneyPin">
+                                        <ErrorMessage id="epin-error" htmlFor="eMoneyPin">
                                             {errors.eMoneyPin?.message}
                                         </ErrorMessage>
                                     )}
@@ -483,7 +483,7 @@ export default function CheckoutForm({
                                     {...register("eMoneyPin", {
                                         required: true,
                                     })}
-                                    id="eMoneyNumber"
+                                    id="eMoneyPin"
                                     type="text"
                                     placeholder="6891"
                                     autoComplete="cc-csc"
@@ -504,6 +504,7 @@ export default function CheckoutForm({
                         </CashContainer>
                     )}
                 </PaymentDetailsContainer>
+                <button>Submit</button>
             </form>
         </>
     );

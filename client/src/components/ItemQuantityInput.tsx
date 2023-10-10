@@ -94,21 +94,21 @@ export default function ItemQuantityInput({
 
     return setCart ? (
         <InputContainer>
-            <InputIconContainer onClick={handleMinus}>
+            <InputIconContainer id="cart-minus-button" onClick={handleMinus}>
                 <InputIcons>-</InputIcons>
             </InputIconContainer>
-            <InputAmount>{quantity ? currentQuantity : 0}</InputAmount>
-            <InputIconContainer onClick={handleAdd}>
+            <InputAmount id="cart-item-quantity-amount">{quantity ? currentQuantity : 0}</InputAmount>
+            <InputIconContainer id="cart-add-button" onClick={handleAdd}>
                 <InputIcons>+</InputIcons>
             </InputIconContainer>
         </InputContainer>
     ) : (
         <InputContainer>
-            <InputIconContainer onClick={handleMinus}>
+            <InputIconContainer id="minus-button" onClick={handleMinus}>
                 <InputIcons>-</InputIcons>
             </InputIconContainer>
-            <InputAmount>{currentQuantity}</InputAmount>
-            <InputIconContainer onClick={handleAdd}>
+            <InputAmount id="item-quantity-amount">{currentQuantity}</InputAmount>
+            <InputIconContainer id="add-button" onClick={handleAdd}>
                 <InputIcons>+</InputIcons>
             </InputIconContainer>
         </InputContainer>
