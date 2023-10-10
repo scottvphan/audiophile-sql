@@ -34,3 +34,6 @@ audiophile.session.sql
 aws
 coverage
 awscliv2.zip
+cypress
+.cy
+cypress.config.ts
