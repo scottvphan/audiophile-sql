@@ -157,6 +157,7 @@ export default function Layout({apiBaseUrl}:any) {
             })
             
             .then((res) => {
+                console.log(res.data)
                 console.log(res.data.shippingRate.rateResponse.rates);
                 const rates = res.data.shippingRate.rateResponse.rates;
                 const mappedRates = rates.map((data: any) => {
@@ -167,8 +168,13 @@ export default function Layout({apiBaseUrl}:any) {
                         serviceType: data.serviceType,
                     };
                 });
-                if(res.data.shippingRate.length > 0) {
+                console.log(rates)
+                if(rates.length > 0) {
                     setShippingData(mappedRates);
+                } else {
+                    console.log('should set')
+                    setShippingData('')
+                    setShippingPrice('')
                 }
                 setIsShippingDataLoaded(true);
             });
