@@ -44,13 +44,22 @@ const InputIconContainer = styled.div`
         }
     }
 `;
+
+interface ItemQuantityInputProps {
+    id: number;
+    quantity: number;
+    price: number;
+    setItemAmount?: (amount: number) => void;
+    setCart?: (cart: any) => void; // Replace 'any' with the appropriate type for your cart state
+}
+
 export default function ItemQuantityInput({
     id,
     quantity,
     price,
     setItemAmount,
     setCart,
-}: any) {
+}: ItemQuantityInputProps) {
     const [currentQuantity, setCurrentQuantity] = useState<number>(
         setCart ? +quantity : 0
     );

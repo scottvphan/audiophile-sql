@@ -54,7 +54,13 @@ const EmailParagraph = styled.h6`
     font-size: 0.8rem;
     margin: 1.5rem 0;
 `;
-export default function EmailVerificationModal({ userId, apiBaseUrl }: any) {
+
+interface EmailVerificationModalProps {
+    userId: string; 
+    apiBaseUrl: string; 
+}
+
+export default function EmailVerificationModal({ userId, apiBaseUrl }: EmailVerificationModalProps) {
     const { user } = useAuth0();
     const [isVerificationSent, setIsVerificatonSent] = useState<boolean>(false);
     const [authToken, setAuthToken] = useState<unknown>(undefined);

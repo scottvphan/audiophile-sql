@@ -83,7 +83,14 @@ interface Cart {
     quantity: string;
     total: number;
 }
-export default function CartModal({ cart, setCart, setIsCartOpen }: any) {
+
+interface CartModalProps {
+    cart: Cart
+    setCart: React.Dispatch<React.SetStateAction<Record<string, Cart>>>;
+    setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function CartModal({ cart, setCart, setIsCartOpen }: CartModalProps) {
     console.log(cart)
     const [mappedData, setMappedData] = useState<any>("");
     const [totalPrice, setTotalPrice] = useState<any>(0);

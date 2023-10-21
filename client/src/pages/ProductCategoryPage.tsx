@@ -33,6 +33,8 @@ const ProductCardContainer = styled.div`
     display:grid;
     gap:2rem;
 `
+
+
 export default function ProductCategoryPage({ data }: any) {
     const [filteredData, setFilteredData] = useState<any>("");
     const [filteredDataLoaded, setFilteredDataLoaded] = useState(false);

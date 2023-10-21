@@ -58,7 +58,16 @@ interface Cart {
     total: number;
 }
 
-export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation, setIsCheckoutModalOpen }: any) {
+interface CheckoutSummaryProps {
+    isPreview: boolean;
+    isCheckout: boolean;
+    isConfirmation: boolean;
+    setIsCheckoutModalOpen: (prevCheckout: any) => void;
+}
+
+type SetIsCheckoutModalOpen = (prevCheckout: boolean) => void;
+
+export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation, setIsCheckoutModalOpen }: CheckoutSummaryProps) {
     const { cart, isCartLoaded, shippingData, postOrder, setFormData, shippingPrice, totalPrice, setTotalPrice } = useLayoutOutletContext();
     const [productTotal, setProductTotal] = useState<number>(0);
     const [mappedProducts, setMappedProducts] = useState<any>(0);
@@ -101,11 +110,11 @@ export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation,
             setTotalPrice((total + vat2 + shippingData[2].shippingAmount.amount).toFixed(2));
             setVat(vat2);
         }
-    }, [cart, shippingData, isConfirmation, shippingPrice ]);
-    // }, [ isConfirmation, shippingPrice ]);
+    // }, [cart, shippingData, isConfirmation, shippingPrice ]);
+    }, [ isConfirmation, shippingPrice ]);
 
     function handleConfirmationButton(){
-        setIsCheckoutModalOpen((prevCheckout: any) => !prevCheckout);
+        setIsCheckoutModalOpen((prevCheckout: SetIsCheckoutModalOpen) => !prevCheckout);
         setFormData(undefined);
         if(isAuthenticated){
             postOrder(vat);

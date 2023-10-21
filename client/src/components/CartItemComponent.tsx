@@ -54,8 +54,15 @@ const CartQuantity = styled.h5`
     align-self: start;
 `;
 
+interface CartItemComponentProps {
+    image: string; // Assuming 'image' is a URL
+    fixedName: string;
+    quantity: number;
+    price: number;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function CartItemComponent({image, fixedName, quantity, price, }: any) {
+export default function CartItemComponent({image, fixedName, quantity, price, }: CartItemComponentProps) {
     return (
         <CartItemContainer>
             <CartImageContainer>
