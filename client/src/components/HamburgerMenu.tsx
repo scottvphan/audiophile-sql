@@ -16,7 +16,7 @@ export default function HamburgerMenu({ setIsHamburgerOpen }: any){
     }
     return(
         <>
-            <Backdrop top={false} onClick={handleMenu} />
+            <Backdrop data-testid={'hamburger-backdrop'} top={false} onClick={handleMenu} />
             <HamburgerMenuContainer>
                 <ProductCardList handleMenu = {handleMenu} />
             </HamburgerMenuContainer>

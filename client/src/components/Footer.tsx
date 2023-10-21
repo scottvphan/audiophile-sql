@@ -143,14 +143,14 @@ export default function Footer() {
                 </BottomFooterContainer>
                 <MobileBottomContainer>
                     <MobileFooterNav>
-                        <StyledLink id="home-footer-link" to="/">HOME</StyledLink>
-                        <StyledLink id="headphone-footer-link" to="/products/headphones">
+                        <StyledLink id="mobile-home-footer-link" to="/">HOME</StyledLink>
+                        <StyledLink id="mobile-headphone-footer-link" to="/products/headphones">
                             HEADPHONES
                         </StyledLink>
-                        <StyledLink id="speaker-footer-link" to="/products/speakers">
+                        <StyledLink id="mobile-speaker-footer-link" to="/products/speakers">
                             SPEAKERS
                         </StyledLink>
-                        <StyledLink id="earphone-footer-link" to="/products/earphones">
+                        <StyledLink id="mobile-earphone-footer-link" to="/products/earphones">
                             EARPHONES
                         </StyledLink>
                     </MobileFooterNav>

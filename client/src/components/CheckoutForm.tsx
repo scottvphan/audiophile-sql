@@ -192,6 +192,9 @@ const CashText = styled.p`
 const CheckoutHeading = styled.h1`
     margin: 0;
 `;
+const HiddenButton = styled.button`
+    display:none;
+`
 export default function CheckoutForm({
     setFormData,
 }: any) {
@@ -504,7 +507,9 @@ export default function CheckoutForm({
                         </CashContainer>
                     )}
                 </PaymentDetailsContainer>
-                <button>Submit</button>
+                <HiddenButton data-testid="submit-btn">Submit</HiddenButton>
+                <HiddenButton onClick={handleCashSelection} data-testid="cash-btn">Cash</HiddenButton>
+                <HiddenButton onClick={handleCreditSelection} data-testid="credit-btn">Credit</HiddenButton>
             </form>
         </>
     );

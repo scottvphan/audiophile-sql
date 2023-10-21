@@ -57,13 +57,13 @@ const EmailParagraph = styled.h6`
 export default function EmailVerificationModal({ userId, apiBaseUrl }: any) {
     const { user } = useAuth0();
     const [isVerificationSent, setIsVerificatonSent] = useState<boolean>(false);
-    const [authToken, setAuthToken] = useState<unknown>("");
+    const [authToken, setAuthToken] = useState<unknown>(undefined);
 
-    function checkToken() {
+    function checkAuthToken() {
+        console.log("checking token");
         axios
-            .get(`${apiBaseUrl}:4000/api/v1/verifications/${userId}`)
+            .get(`${apiBaseUrl}/api/v1/verifications/${userId}`)
             .then((res) => {
-                console.log(res.data);
                 if (res.data.is_token_expired === false) {
                     setAuthToken(res.data.token);
                     console.log("setting token");
@@ -75,37 +75,30 @@ export default function EmailVerificationModal({ userId, apiBaseUrl }: any) {
             });
     }
 
-    useEffect(() => {
-        console.log(isVerificationSent);
-    }, [isVerificationSent]);
+    checkAuthToken();
 
-    checkToken();
     function handleVerification() {
         if (authToken) {
+            console.log("hello?");
             const postData = {
                 email: user?.email,
                 authToken: authToken,
                 user_id: userId,
             };
             axios
-                .post(
-                    `${apiBaseUrl}:4000/api/v1/verifications/email`,
-                    postData
-                )
+                .post(`${apiBaseUrl}/api/v1/verifications/email`, postData)
                 .then((res) => {
                     console.log(res);
                 });
             setIsVerificatonSent(true);
         } else {
+            console.log("hello??");
             const userData = {
                 user_id: userId,
             };
             // Creates a new token
-            axios.post(
-                `${apiBaseUrl}:4000/api/v1/verifications/token`,
-                userData
-            );
-            // handleVerification()
+            axios.post(`${apiBaseUrl}/api/v1/verifications/token`, userData);
+            console.log(userData);
         }
     }
 
@@ -118,20 +111,19 @@ export default function EmailVerificationModal({ userId, apiBaseUrl }: any) {
             {isVerificationSent ? (
                 <CheckoutModalContainer>
                     <EmailHeading>The verification email was sent</EmailHeading>
-                    <EmailSubHeading>
-                        This wlll close once your email is verified
-                    </EmailSubHeading>
-                    <EmailSubHeading>
-                        Your link will expire in 1 hour
-                    </EmailSubHeading>
                     <EmailParagraph>
                         Please check your inbox, if it doesn't appear please
                         check your spam folder
                     </EmailParagraph>
                     <EmailParagraph>
-                        Once you verified your email please
+                        Your link will expire in 1 hour
                     </EmailParagraph>
-                    <OrangeButton onClick={handleButtonClick}>Click Here</OrangeButton>
+                    <EmailParagraph>
+                        Once you verified your email please click the button below
+                    </EmailParagraph>
+                    <OrangeButton onClick={handleButtonClick}>
+                        Click Here
+                    </OrangeButton>
                 </CheckoutModalContainer>
             ) : (
                 <CheckoutModalContainer>
@@ -141,7 +133,7 @@ export default function EmailVerificationModal({ userId, apiBaseUrl }: any) {
                         continue
                     </EmailSubHeading>
                     <ResendVerification onClick={handleVerification}>
-                        Click here to resend
+                        Click here to send/resend
                     </ResendVerification>
                 </CheckoutModalContainer>
             )}

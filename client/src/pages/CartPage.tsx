@@ -89,6 +89,7 @@ export default function CartPage() {
         });
         setMappedCart(mappeddata);
     }, [cart, setCart]);
+    // }, []);
 
     return (
         <CartPageContainer>

@@ -12,7 +12,7 @@ function App() {
             .then(function (response){
                 setData(Object.values(response.data))
                 setDataLoaded(true)
-                console.log(response.data)
+                console.log(data)
             })
             .catch(function (error){
                 if(error){

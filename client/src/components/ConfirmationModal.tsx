@@ -55,8 +55,8 @@ export default function ConfirmationModal() {
     const { setIsShippingDataLoaded } = useLayoutOutletContext()
     const nav = useNavigate();
     function handleConfirmation() {
-        nav('/confirmation')
         setIsShippingDataLoaded(false)
+        nav('/checkout')
     }
 
     return (

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import styled from "styled-components";
 import CheckoutSummary from "../components/CheckoutSummary";
 import GoBackButton from "../components/GoBackButton";
@@ -86,6 +87,7 @@ export default function ConfirmationPage() {
         });
         setMappedProducts(mappedArray);
     }, [cart, shippingData]);
+    // }, []);
     
     return (
         <>

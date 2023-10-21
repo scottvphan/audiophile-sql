@@ -20,6 +20,11 @@ const CartContainer = styled.div`
     @media screen and (max-width: 768px) {
         left: 30%;
     }
+    @media screen and (max-width:500px) {
+        left:0%;
+        width:100vw;
+        box-sizing:border-box;
+    }
     z-index:90;
 `;
 const TopContainer = styled.div`

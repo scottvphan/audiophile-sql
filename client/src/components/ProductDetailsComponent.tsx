@@ -251,7 +251,7 @@ export default function ProductDetails(props: any) {
     useEffect(() => {
         const mappedData = data.others.map((data: any) => {
             return (
-                <RecommendationCard key={uuidv4()}>
+                <RecommendationCard id={`${data.slug}-recommended`} key={uuidv4()}>
                     <Link to={`/products/details/${data.slug}`}>
                         <RecommendationImage src={data.image.desktop} />
                     </Link>

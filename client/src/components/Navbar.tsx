@@ -85,6 +85,9 @@ const RightContainer = styled.div`
     align-items:center;
     gap:1rem;
 `
+const HiddenBtn = styled.button`
+    display:none;
+`
 export default function Navbar({
     cart,
     setIsCartOpen,
@@ -98,6 +101,13 @@ export default function Navbar({
             setIsCartOpen(!isCartOpen);
         }
     }
+
+    function setHamburgerMenu() {
+        console.log('setting menu')
+        setIsHamburgerOpen(
+            (prevState: boolean) => !prevState
+        );
+    }
     
     return (
         <Nav>
@@ -105,11 +115,7 @@ export default function Navbar({
                 <SVGContainer>
                     <HamburgerMenu
                         id="hamburger-menu"
-                        onClick={() => {
-                            setIsHamburgerOpen(
-                                (prevState: boolean) => !prevState
-                            );
-                        }}
+                        onClick={setHamburgerMenu}
                         src={hamburger}
                     />
                     <UnStyledLink to="/">
@@ -122,13 +128,15 @@ export default function Navbar({
                     <StyledLink id="speakers-link" to="/products/speakers">SPEAKERS</StyledLink>
                     <StyledLink id="earphones-link" to="/products/earphones">EARPHONES</StyledLink>
                 </LinkContainer>
-                <RightContainer>
+                <RightContainer data-testid="svg-container">
                     {!isAuthenticated ? <LoginButton /> : <LogoutButton />}
                     <StyledSVG
                         id="cart-icon"
                         onClick={handleCart}
                         src="/assets/shared/desktop/icon-cart.svg"
                     />
+                    <HiddenBtn onClick={handleCart} data-testid="cartBtn">cart</HiddenBtn>
+                    <HiddenBtn onClick={setHamburgerMenu} data-testid="setHamburgerMenu">hamburger-menu</HiddenBtn>
                 </RightContainer>
             </NavContainer>
         </Nav>

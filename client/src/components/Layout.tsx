@@ -11,6 +11,11 @@ import CheckoutModal from "./CheckoutModal";
 import HamburgerMenu from "./HamburgerMenu";
 import axios from "axios";
 import EmailVerificationModal from "./EmailVerificationModal";
+import styled from "styled-components";
+
+const HiddenButton = styled.button`
+    display:none;
+`
 
 export default function Layout({apiBaseUrl}:any) {
     const { isAuthenticated, user, isLoading } = useAuth0();
@@ -39,7 +44,8 @@ export default function Layout({apiBaseUrl}:any) {
         useState<boolean>(false);
     const [userId, setUserId] = useState<number>(0);
     const [isUserIdLoaded, setIsUserIdLoaded] = useState<boolean>(false);
-    const postOrder = async (tax: number) => {
+    
+    const postOrder = async (tax: any) => {
         console.log(formData)
         const dataPosted = {
             name: formData.name,
@@ -63,7 +69,7 @@ export default function Layout({apiBaseUrl}:any) {
         await axios
             .get(`${apiBaseUrl}/api/v1/user/${userEmail}`)
             .then((res) => {
-                console.log(res.data);
+                console.log(res);
                 setUserId(res.data[0].user_id);
             });
     };
@@ -80,6 +86,7 @@ export default function Layout({apiBaseUrl}:any) {
             userId: userId,
             cartData: cart,
         };
+        console.log(userCart)
         if(cart){
             await axios.patch(`${apiBaseUrl}/api/v1/cart`, userCart);
         }
@@ -215,10 +222,12 @@ export default function Layout({apiBaseUrl}:any) {
     useEffect(() => {
             if (userId !== 0 && userId !== undefined && userId !== -1) {
                 setIsUserIdLoaded(true)
+                console.log(isUserIdLoaded)
                 if(!isUserIdLoaded){
                     addCart();
                     checkVerification();
                     getCart();
+                    console.log('getting cart')
                 }
             }
             if (userId === -1) {
@@ -257,10 +266,6 @@ export default function Layout({apiBaseUrl}:any) {
         setIsCartOpen(false);
     }
 
-    useEffect(() => {
-        // updateCart()
-    }, [cart]);
-
     return (
         <>
             {isEmailVerificationOpen && userId !== 0 && (
@@ -273,7 +278,7 @@ export default function Layout({apiBaseUrl}:any) {
                     <Backdrop top />
                 </>
             )}
-            {isCartOpen && <Backdrop top={false} onClick={handleCloseModal} />}
+            {isCartOpen && <Backdrop data-testid="cart-backdrop" top={false} onClick={handleCloseModal} />}
             {isCheckoutModalOpen && (
                 <CheckoutModal
                     cart={cart}
@@ -299,6 +304,7 @@ export default function Layout({apiBaseUrl}:any) {
                     isCartLoaded,
                     shippingData,
                     isShippingDataLoaded,
+                    setIsShippingDataLoaded,
                     shippingPrice,
                     setShippingPrice,
                     postOrder,
@@ -307,6 +313,15 @@ export default function Layout({apiBaseUrl}:any) {
                 }}
             />
             <Footer />
+            <HiddenButton onClick={postOrder} data-testid="postOrder"></HiddenButton>
+            <HiddenButton onClick={getUserId} data-testid="getUserId"></HiddenButton>
+            <HiddenButton onClick={addCart} data-testid="addCart"></HiddenButton>
+            <HiddenButton onClick={updateCart} data-testid="updateCart"></HiddenButton>
+            <HiddenButton onClick={getCart} data-testid="getCart"></HiddenButton>
+            <HiddenButton onClick={addUser} data-testid="addUser"></HiddenButton>
+            <HiddenButton onClick={checkVerification} data-testid="checkVerification"></HiddenButton>
+            <HiddenButton onClick={getShippingData} data-testid="getShippingData"></HiddenButton>
+            <HiddenButton onClick={handleCloseModal} data-testid="handleCloseModal"></HiddenButton>
         </>
     );
 }

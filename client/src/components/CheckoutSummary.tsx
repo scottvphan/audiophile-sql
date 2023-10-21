@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import styled from "styled-components";
 import { useLayoutOutletContext } from "./Layout";
@@ -6,6 +7,7 @@ import CartItemComponent from "./CartItemComponent";
 import { v4 as uuidv4 } from "uuid";
 import { OrangeButton, UnStyledLink } from "./StyledComponents";
 import LoaderComponent from "./LoaderComponent";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const SummaryHeading = styled.h4`
     font-weight: 700;
@@ -61,6 +63,7 @@ export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation,
     const [productTotal, setProductTotal] = useState<number>(0);
     const [mappedProducts, setMappedProducts] = useState<any>(0);
     const [vat, setVat] = useState<number>(0);
+    const {isAuthenticated} = useAuth0();
 
     useEffect(() => {
         const cartArray = Object.values(cart);
@@ -86,7 +89,6 @@ export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation,
             },
             0
         );
-        console.log(shippingData.length)
         if(!shippingData){
             setProductTotal(total);
             const vat2 = parseFloat((total * 0.0625).toFixed(2));
@@ -100,11 +102,14 @@ export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation,
             setVat(vat2);
         }
     }, [cart, shippingData, isConfirmation, shippingPrice ]);
+    // }, [ isConfirmation, shippingPrice ]);
 
     function handleConfirmationButton(){
         setIsCheckoutModalOpen((prevCheckout: any) => !prevCheckout);
-        postOrder(vat);
         setFormData(undefined);
+        if(isAuthenticated){
+            postOrder(vat);
+        }
     }
 
     return (
@@ -155,7 +160,7 @@ export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation,
                     }
                     {isConfirmation && 
                         <UnStyledLink onClick={handleConfirmationButton} to={"/"}>
-                            <OrangeButton>CHECKOUT</OrangeButton>
+                            <OrangeButton onClick={handleConfirmationButton}>CHECKOUT</OrangeButton>
                         </UnStyledLink>        
                     }
                 </>
