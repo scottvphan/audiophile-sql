@@ -4,7 +4,7 @@ import SVG from "react-inlinesvg/esm";
 import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect } from "react";
 import CartItemComponent from "./CartItemComponent";
-import { OrangeButton, UnStyledLink } from "./StyledComponents";
+import { OrangeButton } from "./StyledComponents";
 
 const CheckoutModalContainer = styled.div`
     background-color: white;
@@ -116,12 +116,19 @@ const ViewingText = styled.p`
     }
 `;
 
+interface CheckoutModalProps {
+    cart: Record<string, any>;
+    setIsCheckoutModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setCart: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+    totalPrice: number;
+}
+
 export default function CheckoutModal({
     cart,
     setIsCheckoutModalOpen,
     setCart,
     totalPrice,
-}: any) {
+}: CheckoutModalProps) {
     const [mappedProducts, setMappedProducts] = useState<any>("");
     const [isHidden, setIsHidden] = useState<boolean>(true);
     useEffect(() => {
@@ -185,9 +192,7 @@ export default function CheckoutModal({
                     <GrandTotalSubHeading>$ {totalPrice}</GrandTotalSubHeading>
                 </SummaryRightContainer>
             </SummaryContainer>
-            {/* <UnStyledLink onClick={handleCheckout} to={"/"}> */}
-                <OrangeButton onClick={handleCheckout}>CLOSE</OrangeButton>
-            {/* </UnStyledLink> */}
+            <OrangeButton onClick={handleCheckout}>CLOSE</OrangeButton>
         </CheckoutModalContainer>
     );
 }

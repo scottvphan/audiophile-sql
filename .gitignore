@@ -28,5 +28,13 @@ dist-ssr
 *.xd
 *.sketch
 *.fig
-__tests__
+# __tests__
 .env
+audiophile.session.sql
+aws
+coverage
+awscliv2.zip
+# cypress
+# .cy
+# cypress.config.ts
+index.d.ts

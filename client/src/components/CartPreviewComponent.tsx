@@ -73,14 +73,26 @@ const DeleteButton = styled.p`
         transition:0.3s;
     }
 `;
-export default function CartPreviewComponent({ setCart, data }: any) {
+
+interface CartPreviewComponentProps {
+    setCart: React.Dispatch<React.SetStateAction<any>>;
+    data: {
+        id: number; 
+        name: string;
+        image: string;
+        price: number;
+        quantity: number;
+    };
+}
+
+export default function CartPreviewComponent({ setCart, data }: CartPreviewComponentProps) {
     const fixedName = data?.name.replace(
         /headphones|earphones|speaker|wireless/gi,
         ""
     );
 
-    function handleDelete() {
-        setCart((prevState: any) => {
+    function handleDelete(): void {
+        setCart((prevState: Record<string, any>) => {
             const updatedCart = { ...prevState };
             delete updatedCart[data.id];
             return updatedCart;

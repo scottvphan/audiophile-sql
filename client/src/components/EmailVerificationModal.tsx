@@ -54,16 +54,22 @@ const EmailParagraph = styled.h6`
     font-size: 0.8rem;
     margin: 1.5rem 0;
 `;
-export default function EmailVerificationModal({ userId }: any) {
-    const { isAuthenticated, user } = useAuth0();
-    const [isVerificationSent, setIsVerificatonSent] = useState<boolean>(false);
-    const [authToken, setAuthToken] = useState<unknown>("");
 
-    function checkToken() {
+interface EmailVerificationModalProps {
+    userId: string; 
+    apiBaseUrl: string; 
+}
+
+export default function EmailVerificationModal({ userId, apiBaseUrl }: EmailVerificationModalProps) {
+    const { user } = useAuth0();
+    const [isVerificationSent, setIsVerificatonSent] = useState<boolean>(false);
+    const [authToken, setAuthToken] = useState<unknown>(undefined);
+
+    function checkAuthToken() {
+        console.log("checking token");
         axios
-            .get(`http://localhost:4000/api/v1/verifications/${userId}`)
+            .get(`${apiBaseUrl}/api/v1/verifications/${userId}`)
             .then((res) => {
-                console.log(res.data);
                 if (res.data.is_token_expired === false) {
                     setAuthToken(res.data.token);
                     console.log("setting token");
@@ -75,37 +81,30 @@ export default function EmailVerificationModal({ userId }: any) {
             });
     }
 
-    useEffect(() => {
-        console.log(isVerificationSent);
-    }, [isVerificationSent]);
+    checkAuthToken();
 
-    checkToken();
     function handleVerification() {
         if (authToken) {
+            console.log("hello?");
             const postData = {
                 email: user?.email,
                 authToken: authToken,
                 user_id: userId,
             };
             axios
-                .post(
-                    "http://localhost:4000/api/v1/verifications/email",
-                    postData
-                )
+                .post(`${apiBaseUrl}/api/v1/verifications/email`, postData)
                 .then((res) => {
                     console.log(res);
                 });
             setIsVerificatonSent(true);
         } else {
+            console.log("hello??");
             const userData = {
                 user_id: userId,
             };
             // Creates a new token
-            axios.post(
-                `http://localhost:4000/api/v1/verifications/token`,
-                userData
-            );
-            // handleVerification()
+            axios.post(`${apiBaseUrl}/api/v1/verifications/token`, userData);
+            console.log(userData);
         }
     }
 
@@ -118,20 +117,19 @@ export default function EmailVerificationModal({ userId }: any) {
             {isVerificationSent ? (
                 <CheckoutModalContainer>
                     <EmailHeading>The verification email was sent</EmailHeading>
-                    <EmailSubHeading>
-                        This wlll close once your email is verified
-                    </EmailSubHeading>
-                    <EmailSubHeading>
-                        Your link will expire in 1 hour
-                    </EmailSubHeading>
                     <EmailParagraph>
                         Please check your inbox, if it doesn't appear please
                         check your spam folder
                     </EmailParagraph>
                     <EmailParagraph>
-                        Once you verified your email please
+                        Your link will expire in 1 hour
                     </EmailParagraph>
-                    <OrangeButton onClick={handleButtonClick}>Click Here</OrangeButton>
+                    <EmailParagraph>
+                        Once you verified your email please click the button below
+                    </EmailParagraph>
+                    <OrangeButton onClick={handleButtonClick}>
+                        Click Here
+                    </OrangeButton>
                 </CheckoutModalContainer>
             ) : (
                 <CheckoutModalContainer>
@@ -141,7 +139,7 @@ export default function EmailVerificationModal({ userId }: any) {
                         continue
                     </EmailSubHeading>
                     <ResendVerification onClick={handleVerification}>
-                        Click here to resend
+                        Click here to send/resend
                     </ResendVerification>
                 </CheckoutModalContainer>
             )}

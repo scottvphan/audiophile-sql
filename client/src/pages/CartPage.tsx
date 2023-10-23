@@ -74,7 +74,7 @@ const MappedCartContainer = styled.div`
 export default function CartPage() {
     const { cart, setCart, isCartLoaded } = useLayoutOutletContext()
     const [mappedCart, setMappedCart] = useState<any>('')
-    
+    console.log(cart)
     useEffect(() => {
         const mappeddata = Object.values(cart).map((data: any) => {
             const ComponentProps = {
@@ -89,6 +89,7 @@ export default function CartPage() {
         });
         setMappedCart(mappeddata);
     }, [cart, setCart]);
+    // }, []);
 
     return (
         <CartPageContainer>

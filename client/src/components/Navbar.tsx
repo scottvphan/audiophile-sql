@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import SVG from "react-inlinesvg";
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "/assets/shared/desktop/logo.svg";
 import hamburger from "/assets/hamburger.svg";
 import { StyledSVG, UnStyledLink } from "./StyledComponents";
@@ -85,21 +85,28 @@ const RightContainer = styled.div`
     align-items:center;
     gap:1rem;
 `
+const HiddenBtn = styled.button`
+    display:none;
+`
 export default function Navbar({
     cart,
     setIsCartOpen,
     isCartOpen,
     setIsHamburgerOpen,
 }: any) {
-    const location = useLocation();
-    
-    const isCart = location.pathname.includes('cart')
-    const isCheckout = location.pathname.includes('checkout')
     const { isAuthenticated } = useAuth0();
+    
     function handleCart() {
         if (Object.keys(cart).length !== 0) {
             setIsCartOpen(!isCartOpen);
         }
+    }
+
+    function setHamburgerMenu() {
+        console.log('setting menu')
+        setIsHamburgerOpen(
+            (prevState: boolean) => !prevState
+        );
     }
     
     return (
@@ -107,31 +114,29 @@ export default function Navbar({
             <NavContainer>
                 <SVGContainer>
                     <HamburgerMenu
-                        onClick={() => {
-                            setIsHamburgerOpen(
-                                (prevState: boolean) => !prevState
-                            );
-                        }}
+                        id="hamburger-menu"
+                        onClick={setHamburgerMenu}
                         src={hamburger}
                     />
-                    <UnStyledLink to={"/"}>
+                    <UnStyledLink to="/">
                         <StyledLogo src={logo} />
                     </UnStyledLink>
                 </SVGContainer>
                 <LinkContainer>
-                    <StyledLink to="/">HOME</StyledLink>
-                    <StyledLink to="/products/headphones">
-                        HEADPHONES
-                    </StyledLink>
-                    <StyledLink to="/products/speakers">SPEAKERS</StyledLink>
-                    <StyledLink to="/products/earphones">EARPHONES</StyledLink>
+                    <StyledLink id="home-link" to="/">HOME</StyledLink>
+                    <StyledLink id="headphones-link" to="/products/headphones">HEADPHONES</StyledLink>
+                    <StyledLink id="speakers-link" to="/products/speakers">SPEAKERS</StyledLink>
+                    <StyledLink id="earphones-link" to="/products/earphones">EARPHONES</StyledLink>
                 </LinkContainer>
-                <RightContainer>
+                <RightContainer data-testid="svg-container">
                     {!isAuthenticated ? <LoginButton /> : <LogoutButton />}
                     <StyledSVG
+                        id="cart-icon"
                         onClick={handleCart}
                         src="/assets/shared/desktop/icon-cart.svg"
                     />
+                    <HiddenBtn onClick={handleCart} data-testid="cartBtn">cart</HiddenBtn>
+                    <HiddenBtn onClick={setHamburgerMenu} data-testid="setHamburgerMenu">hamburger-menu</HiddenBtn>
                 </RightContainer>
             </NavContainer>
         </Nav>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { StyledSVG } from "./StyledComponents";
 import logo from "/assets/shared/desktop/logo.svg";
 
-const Footer = styled.footer`
+const StyledFooter = styled.footer`
     background-color: black;
     color: white;
     min-height:25vh;
@@ -103,21 +103,21 @@ const MobileBottomContainer = styled.div`
         display:none;
     }
 `;
-export default function Navbar() {
+export default function Footer() {
     return (
-        <Footer>
+        <StyledFooter>
             <FooterContainer>
                 <TopFooterContainer>
                     <SVG src={logo} />
                     <LinkContainer>
-                        <StyledLink to="/">HOME</StyledLink>
-                        <StyledLink to="/products/headphones">
+                        <StyledLink id="home-footer-link" to="/">HOME</StyledLink>
+                        <StyledLink id="headphone-footer-link" to="/products/headphones">
                             HEADPHONES
                         </StyledLink>
-                        <StyledLink to="/products/speakers">
+                        <StyledLink id="speaker-footer-link" to="/products/speakers">
                             SPEAKERS
                         </StyledLink>
-                        <StyledLink to="/products/earphones">
+                        <StyledLink id="earphone-footer-link" to="/products/earphones">
                             EARPHONES
                         </StyledLink>
                     </LinkContainer>
@@ -143,14 +143,14 @@ export default function Navbar() {
                 </BottomFooterContainer>
                 <MobileBottomContainer>
                     <MobileFooterNav>
-                        <StyledLink to="/">HOME</StyledLink>
-                        <StyledLink to="/products/headphones">
+                        <StyledLink id="mobile-home-footer-link" to="/">HOME</StyledLink>
+                        <StyledLink id="mobile-headphone-footer-link" to="/products/headphones">
                             HEADPHONES
                         </StyledLink>
-                        <StyledLink to="/products/speakers">
+                        <StyledLink id="mobile-speaker-footer-link" to="/products/speakers">
                             SPEAKERS
                         </StyledLink>
-                        <StyledLink to="/products/earphones">
+                        <StyledLink id="mobile-earphone-footer-link" to="/products/earphones">
                             EARPHONES
                         </StyledLink>
                     </MobileFooterNav>
@@ -173,6 +173,6 @@ export default function Navbar() {
                     </MobileBottomFooter>
                 </MobileBottomContainer>
             </FooterContainer>
-        </Footer>
+        </StyledFooter>
     );
 }

@@ -16,7 +16,12 @@ import Loader from "./components/Loader";
 import ErrorPage from "./pages/ErrorPage";
 import ConfirmationPage from "./pages/ConfirmationPage";
 import { useAuth0 } from "@auth0/auth0-react";
-
+import { Product} from "./productTypes";
+interface IndexProps {
+    apiBaseUrl: string; 
+    data: Product | unknown;
+    dataLoaded: boolean;
+}
 const GlobalStyle = createGlobalStyle`
     html,
     body,
@@ -38,11 +43,11 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-export default function Index({ data, dataLoaded }: any) {
+export default function Index({ apiBaseUrl, data, dataLoaded }: IndexProps) {
     const { isLoading } = useAuth0();
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Layout apiBaseUrl={apiBaseUrl} />}>
                 <Route path="/" element={<HomePage />} />
                 <Route
                     path="/products"

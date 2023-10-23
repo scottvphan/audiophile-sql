@@ -10,13 +10,18 @@ const HamburgerMenuContainer = styled.div`
     width:100vw;
     box-sizing:border-box;
 `
-export default function HamburgerMenu({ setIsHamburgerOpen }: any){
+
+interface HamburgerMenuProps {
+    setIsHamburgerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function HamburgerMenu({ setIsHamburgerOpen }: HamburgerMenuProps){
     function handleMenu(){
         setIsHamburgerOpen((prevState:boolean) => !prevState)
     }
     return(
         <>
-            <Backdrop onClick={handleMenu} />
+            <Backdrop data-testid={'hamburger-backdrop'} top={false} onClick={handleMenu} />
             <HamburgerMenuContainer>
                 <ProductCardList handleMenu = {handleMenu} />
             </HamburgerMenuContainer>

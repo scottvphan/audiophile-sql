@@ -44,13 +44,22 @@ const InputIconContainer = styled.div`
         }
     }
 `;
+
+interface ItemQuantityInputProps {
+    id: number;
+    quantity: number;
+    price: number;
+    setItemAmount?: (amount: number) => void;
+    setCart?: (cart: any) => void; // Replace 'any' with the appropriate type for your cart state
+}
+
 export default function ItemQuantityInput({
     id,
     quantity,
     price,
     setItemAmount,
     setCart,
-}: any) {
+}: ItemQuantityInputProps) {
     const [currentQuantity, setCurrentQuantity] = useState<number>(
         setCart ? +quantity : 0
     );
@@ -94,21 +103,21 @@ export default function ItemQuantityInput({
 
     return setCart ? (
         <InputContainer>
-            <InputIconContainer onClick={handleMinus}>
+            <InputIconContainer id="cart-minus-button" onClick={handleMinus}>
                 <InputIcons>-</InputIcons>
             </InputIconContainer>
-            <InputAmount>{quantity ? currentQuantity : 0}</InputAmount>
-            <InputIconContainer onClick={handleAdd}>
+            <InputAmount id="cart-item-quantity-amount">{quantity ? currentQuantity : 0}</InputAmount>
+            <InputIconContainer id="cart-add-button" onClick={handleAdd}>
                 <InputIcons>+</InputIcons>
             </InputIconContainer>
         </InputContainer>
     ) : (
         <InputContainer>
-            <InputIconContainer onClick={handleMinus}>
+            <InputIconContainer id="minus-button" onClick={handleMinus}>
                 <InputIcons>-</InputIcons>
             </InputIconContainer>
-            <InputAmount>{currentQuantity}</InputAmount>
-            <InputIconContainer onClick={handleAdd}>
+            <InputAmount id="item-quantity-amount">{currentQuantity}</InputAmount>
+            <InputIconContainer id="add-button" onClick={handleAdd}>
                 <InputIcons>+</InputIcons>
             </InputIconContainer>
         </InputContainer>

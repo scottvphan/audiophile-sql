@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import styled from "styled-components";
 import CheckoutSummary from "../components/CheckoutSummary";
 import GoBackButton from "../components/GoBackButton";
@@ -6,6 +7,8 @@ import Loader from "../components/Loader";
 import { useState, useEffect } from 'react';
 import CartItemComponent from "../components/CartItemComponent";
 import {v4 as uuidv4} from 'uuid'
+import ConfirmationModal from "../components/ConfirmationModal";
+import { Backdrop } from "../components/StyledComponents";
 
 const CheckoutPageContainer = styled.div`
     min-height:56.5vh;
@@ -32,6 +35,7 @@ const CheckoutContainer = styled.div`
         flex-direction: column;
         width: 100%;
     }
+    height:80vh;
 `;
 const CheckoutSummaryContainer = styled.div`
     width: 80%;
@@ -83,18 +87,28 @@ export default function ConfirmationPage() {
         });
         setMappedProducts(mappedArray);
     }, [cart, shippingData]);
+    // }, []);
+    
     return (
         <>
             {isShippingDataLoaded ? (
-                <CheckoutPageContainer>
-                    <GoBackButton />
-                    <CheckoutContainer>
-                        <CartContainer>{mappedProducts}</CartContainer>
-                        <CheckoutSummaryContainer>
-                            <CheckoutSummary isConfirmation setIsCheckoutModalOpen={setIsCheckoutModalOpen} />
-                        </CheckoutSummaryContainer>
-                    </CheckoutContainer>
-                </CheckoutPageContainer>
+                <>  
+                    {shippingData.length <= 0 && (
+                        <>
+                            <Backdrop top />
+                            <ConfirmationModal />
+                        </>
+                    )}
+                    <CheckoutPageContainer>
+                        <GoBackButton />
+                        <CheckoutContainer>
+                            <CartContainer>{mappedProducts}</CartContainer>
+                            <CheckoutSummaryContainer>
+                                <CheckoutSummary isConfirmation setIsCheckoutModalOpen={setIsCheckoutModalOpen} />
+                            </CheckoutSummaryContainer>
+                        </CheckoutContainer>
+                    </CheckoutPageContainer>
+                </>
             ) : (
                 <Loader />
             )}

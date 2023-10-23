@@ -9,7 +9,6 @@ const CartContainer = styled.div`
     position: absolute;
     top: 10%;
     left: 65%;
-    /* width:15%; */
     background-color: white;
     z-index: 11;
     padding: 1rem;
@@ -20,6 +19,11 @@ const CartContainer = styled.div`
     }
     @media screen and (max-width: 768px) {
         left: 30%;
+    }
+    @media screen and (max-width:500px) {
+        left:0%;
+        width:100vw;
+        box-sizing:border-box;
     }
     z-index:90;
 `;
@@ -79,7 +83,14 @@ interface Cart {
     quantity: string;
     total: number;
 }
-export default function CartModal({ cart, setCart, setIsCartOpen }: any) {
+
+interface CartModalProps {
+    cart: Cart
+    setCart: React.Dispatch<React.SetStateAction<Record<string, Cart>>>;
+    setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function CartModal({ cart, setCart, setIsCartOpen }: CartModalProps) {
     console.log(cart)
     const [mappedData, setMappedData] = useState<any>("");
     const [totalPrice, setTotalPrice] = useState<any>(0);

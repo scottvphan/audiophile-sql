@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import styled from "styled-components";
 import { useLayoutOutletContext } from "./Layout";
@@ -6,6 +7,7 @@ import CartItemComponent from "./CartItemComponent";
 import { v4 as uuidv4 } from "uuid";
 import { OrangeButton, UnStyledLink } from "./StyledComponents";
 import LoaderComponent from "./LoaderComponent";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const SummaryHeading = styled.h4`
     font-weight: 700;
@@ -56,11 +58,21 @@ interface Cart {
     total: number;
 }
 
-export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation, setIsCheckoutModalOpen }: any) {
+interface CheckoutSummaryProps {
+    isPreview: boolean;
+    isCheckout: boolean;
+    isConfirmation: boolean;
+    setIsCheckoutModalOpen: (prevCheckout: any) => void;
+}
+
+type SetIsCheckoutModalOpen = (prevCheckout: boolean) => void;
+
+export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation, setIsCheckoutModalOpen }: CheckoutSummaryProps) {
     const { cart, isCartLoaded, shippingData, postOrder, setFormData, shippingPrice, totalPrice, setTotalPrice } = useLayoutOutletContext();
     const [productTotal, setProductTotal] = useState<number>(0);
     const [mappedProducts, setMappedProducts] = useState<any>(0);
     const [vat, setVat] = useState<number>(0);
+    const {isAuthenticated} = useAuth0();
 
     useEffect(() => {
         const cartArray = Object.values(cart);
@@ -92,18 +104,21 @@ export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation,
             setTotalPrice((total + vat2 + 50).toFixed(2));
             setVat(vat2);
         } else{
+            console.log('has shipping amount')
             setProductTotal(total);
             const vat2 = parseFloat((total * 0.0625).toFixed(2));
             setTotalPrice((total + vat2 + shippingData[2].shippingAmount.amount).toFixed(2));
             setVat(vat2);
         }
-    }, [cart, shippingData, isConfirmation, shippingPrice, setTotalPrice]);
+    // }, [cart, shippingData, isConfirmation, shippingPrice ]);
+    }, [ isConfirmation, shippingPrice ]);
 
     function handleConfirmationButton(){
-        console.log('hi')
-        setIsCheckoutModalOpen((prevCheckout: any) => !prevCheckout);
-        postOrder(vat);
+        setIsCheckoutModalOpen((prevCheckout: SetIsCheckoutModalOpen) => !prevCheckout);
         setFormData(undefined);
+        if(isAuthenticated){
+            postOrder(vat);
+        }
     }
 
     return (
@@ -154,7 +169,7 @@ export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation,
                     }
                     {isConfirmation && 
                         <UnStyledLink onClick={handleConfirmationButton} to={"/"}>
-                            <OrangeButton>CHECKOUT</OrangeButton>
+                            <OrangeButton onClick={handleConfirmationButton}>CHECKOUT</OrangeButton>
                         </UnStyledLink>        
                     }
                 </>
@@ -164,4 +179,3 @@ export default function CheckoutSummary({ isPreview, isCheckout, isConfirmation,
         </>
     );
 }
-<OrangeButton>BACK TO HOME</OrangeButton>

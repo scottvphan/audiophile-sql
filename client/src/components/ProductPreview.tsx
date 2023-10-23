@@ -142,7 +142,7 @@ import { Link } from "react-router-dom";
 export default function ProductPreview(){
 
     return(
-        <ProductPreviewContainer>
+        <ProductPreviewContainer id="product-preview-container">
             <ZX9Container>
                 <ZX9ImageContainer>
                     <ZX9Image src="assets/home/desktop/image-speaker-zx9.png" />

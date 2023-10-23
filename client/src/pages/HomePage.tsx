@@ -3,9 +3,6 @@ import tabletImage from "/assets/home/tablet/image-header.jpg";
 import desktopImage from "/assets/home/desktop/image-header.jpg";
 import styled from "styled-components";
 import ProductPreview from "../components/ProductPreview";
-import { useAuth0 } from "@auth0/auth0-react";
-import LogoutButton from "../components/LogoutButton";
-import LoginButton from "../components/LoginButton";
 import ProductCardList from "../components/ProductCardList";
 import AdComponent from "../components/AdComponent";
 import { OrangeButton, UnStyledLink } from "../components/StyledComponents";
@@ -103,11 +100,9 @@ const ProductContainer = styled.div`
 `;
 
 export default function HomePage() {
-    const { isAuthenticated } = useAuth0();
 
     return (
         <>
-            {/* {isAuthenticated ? <LogoutButton /> : <LoginButton />} */}
             <NewProductContainer>
                 <StyledSection>
                     <ProductContainer>

@@ -96,9 +96,9 @@ export default function CategoryPageComponent({data}:any) {
                 <ProductImageContainer>
                     <UnStyledLink to={`/products/details/${data.slug}`}>
                         <picture>
-                            <ProductImgSource media="(max-width:1440px)" srcSet={data.category_image.desktop} />
-                            <ProductImgSource media="(max-width:768px)" srcSet={data.category_image.tablet} />
-                            <ProductImg src={data.category_image.mobile} />
+                            <ProductImgSource id={`${data.slug}-desktop-img`} media="(max-width:1440px)" srcSet={data.category_image.desktop} />
+                            <ProductImgSource id={`${data.slug}-tablet-img`} media="(max-width:768px)" srcSet={data.category_image.tablet} />
+                            <ProductImg id={`${data.slug}-mobile-img`} src={data.category_image.mobile} />
                         </picture>
                     </UnStyledLink>
                 </ProductImageContainer>
@@ -115,7 +115,7 @@ export default function CategoryPageComponent({data}:any) {
                         {data.description}
                     </ProductDescription>
                     <UnStyledLink to={`/products/details/${data.slug}`}>
-                        <OrangeButton>See Product</OrangeButton>
+                        <OrangeButton id={`${data.slug}-btn`}>See Product</OrangeButton>
                     </UnStyledLink>
                 </ProductDescriptionContainer>
             </ProductCategoryListContainer>

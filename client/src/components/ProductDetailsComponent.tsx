@@ -235,7 +235,7 @@ export default function ProductDetails(props: any) {
     const [mappedRecommended, setMappedRecommended] = useState<any>("");
     const { cart, setCart, setIsCartOpen } = useLayoutOutletContext();
     const [itemAmount, setItemAmount] = useState<number>(0);
-    console.log(data)
+    
     useEffect(() => {
         const mappedData = data.includes.map((data: any) => {
             return (
@@ -251,7 +251,7 @@ export default function ProductDetails(props: any) {
     useEffect(() => {
         const mappedData = data.others.map((data: any) => {
             return (
-                <RecommendationCard key={uuidv4()}>
+                <RecommendationCard id={`${data.slug}-recommended`} key={uuidv4()}>
                     <Link to={`/products/details/${data.slug}`}>
                         <RecommendationImage src={data.image.desktop} />
                     </Link>

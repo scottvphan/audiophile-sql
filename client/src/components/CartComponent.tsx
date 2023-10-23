@@ -23,7 +23,7 @@ const StyledImg = styled.img`
 const ProductInfoContainer = styled.div`
 
 `
-const ProductInfoHeading = styled.div`
+const ProductInfoHeading = styled.h1`
     font-style: normal;
     font-weight: 700;
     font-size: 15px;
@@ -44,7 +44,6 @@ const ProductInfoPrice = styled.p`
     margin:0;
 `
 export default function CartComponent({ setCart, data }:any){
-    console.log(data)
     return (
         <CartComponentContainer>
             <CartComponentLeft>

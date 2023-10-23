@@ -11,8 +11,13 @@ import CheckoutModal from "./CheckoutModal";
 import HamburgerMenu from "./HamburgerMenu";
 import axios from "axios";
 import EmailVerificationModal from "./EmailVerificationModal";
+import styled from "styled-components";
 
-export default function Layout() {
+const HiddenButton = styled.button`
+    display:none;
+`
+
+export default function Layout({apiBaseUrl}:any) {
     const { isAuthenticated, user, isLoading } = useAuth0();
     const [formData, setFormData] = useState<any>("");
     const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
@@ -38,8 +43,9 @@ export default function Layout() {
     const [isEmailVerificationOpen, setIsEmailVerificationOpen] =
         useState<boolean>(false);
     const [userId, setUserId] = useState<number>(0);
-
-    const postOrder = async (tax: number) => {
+    const [isUserIdLoaded, setIsUserIdLoaded] = useState<boolean>(false);
+    
+    const postOrder = async (tax: any) => {
         console.log(formData)
         const dataPosted = {
             name: formData.name,
@@ -55,15 +61,15 @@ export default function Layout() {
             user_id: userId
         };
         console.log(dataPosted)
-        await axios.post("http://localhost:4000/api/v1/orders", dataPosted);
+        await axios.post(`${apiBaseUrl}/api/v1/orders`, dataPosted);
     };
 
     const getUserId = async () => {
         const userEmail = user?.email;
         await axios
-            .get(`http://localhost:4000/api/v1/user/${userEmail}`)
+            .get(`${apiBaseUrl}/api/v1/user/${userEmail}`)
             .then((res) => {
-                console.log(res.data);
+                console.log(res);
                 setUserId(res.data[0].user_id);
             });
     };
@@ -72,7 +78,7 @@ export default function Layout() {
         const userData = {
             userId: userId,
         };
-        axios.post("http://localhost:4000/api/v1/cart", userData);
+        axios.post(`${apiBaseUrl}/api/v1/cart`, userData);
     };
 
     const updateCart = async () => {
@@ -80,8 +86,9 @@ export default function Layout() {
             userId: userId,
             cartData: cart,
         };
+        console.log(userCart)
         if(cart){
-            await axios.patch("http://localhost:4000/api/v1/cart", userCart);
+            await axios.patch(`${apiBaseUrl}/api/v1/cart`, userCart);
         }
     };
 
@@ -89,7 +96,7 @@ export default function Layout() {
         console.log("getting cart");
         try {
             const response = await axios.get(
-                `http://localhost:4000/api/v1/cart/${userId}`
+                `${apiBaseUrl}/api/v1/cart/${userId}`
             );
             console.log(response.data);
             if(response.data){
@@ -102,7 +109,7 @@ export default function Layout() {
             }
         } catch (error) {
             // Handle errors here
-            console.error("Error in getCart:", error);
+            console.error(`Error in getCart:`, error);
         }
     };
 
@@ -112,7 +119,7 @@ export default function Layout() {
             email: user?.email,
             email_verified: user?.email_verified,
         };
-        await axios.post("http://localhost:4000/api/v1/user", userData);
+        await axios.post(`${apiBaseUrl}/api/v1/user`, userData);
         setUserId(-1)
     };
 
@@ -126,13 +133,13 @@ export default function Layout() {
 
         try {
             await axios.get(
-                `http://localhost:4000/api/v1/verifications/${userId}`
+                `${apiBaseUrl}/api/v1/verifications/${userId}`
             );
         } catch (error: any) {
             if (error.response && error.response.status === 404) {
                 try {
                     await axios.post(
-                        `http://localhost:4000/api/v1/verifications/`,
+                        `${apiBaseUrl}/api/v1/verifications/`,
                         userData
                     );
                     console.log(userData);
@@ -148,15 +155,16 @@ export default function Layout() {
     };
 
     const getShippingData = async () => {
-        console.log(formData);
+        console.log('calling shipping data using:', formData);
         axios
-            .get(`http://localhost:4000/api/v1/orders/rates`, {
+            .get(`${apiBaseUrl}/api/v1/orders/rates`, {
                 params: {
                     form: JSON.stringify(formData),
                 },
             })
             
             .then((res) => {
+                console.log(res.data)
                 console.log(res.data.shippingRate.rateResponse.rates);
                 const rates = res.data.shippingRate.rateResponse.rates;
                 const mappedRates = rates.map((data: any) => {
@@ -167,8 +175,14 @@ export default function Layout() {
                         serviceType: data.serviceType,
                     };
                 });
-                console.log(mappedRates);
-                setShippingData(mappedRates);
+                console.log(rates)
+                if(rates.length > 0) {
+                    setShippingData(mappedRates);
+                } else {
+                    console.log('should set')
+                    setShippingData('')
+                    setShippingPrice('')
+                }
                 setIsShippingDataLoaded(true);
             });
     };
@@ -182,9 +196,8 @@ export default function Layout() {
     useEffect(() => {
         if (isAuthenticated) {
             addUser();
-            getUserId();
         }
-    }, [isAuthenticated, userId]);
+    }, [isAuthenticated]);
 
     useEffect(() => {
         // If Email is not verified, modal should be opened
@@ -208,11 +221,14 @@ export default function Layout() {
 
     useEffect(() => {
             if (userId !== 0 && userId !== undefined && userId !== -1) {
-                addCart();
-                checkVerification();
-                getCart();
-                console.log(userId)
-                console.log('??')
+                setIsUserIdLoaded(true)
+                console.log(isUserIdLoaded)
+                if(!isUserIdLoaded){
+                    addCart();
+                    checkVerification();
+                    getCart();
+                    console.log('getting cart')
+                }
             }
             if (userId === -1) {
                 getUserId();
@@ -250,22 +266,19 @@ export default function Layout() {
         setIsCartOpen(false);
     }
 
-    useEffect(() => {
-        // updateCart()
-    }, [cart]);
-
     return (
         <>
             {isEmailVerificationOpen && userId !== 0 && (
                 <>
                     <EmailVerificationModal
+                        apiBaseUrl = {apiBaseUrl}
                         userId={userId}
                         setIsEmailVerificationOpen={setIsEmailVerificationOpen}
                     />
                     <Backdrop top />
                 </>
             )}
-            {isCartOpen && <Backdrop top={false} onClick={handleCloseModal} />}
+            {isCartOpen && <Backdrop data-testid="cart-backdrop" top={false} onClick={handleCloseModal} />}
             {isCheckoutModalOpen && (
                 <CheckoutModal
                     cart={cart}
@@ -291,6 +304,7 @@ export default function Layout() {
                     isCartLoaded,
                     shippingData,
                     isShippingDataLoaded,
+                    setIsShippingDataLoaded,
                     shippingPrice,
                     setShippingPrice,
                     postOrder,
@@ -299,6 +313,15 @@ export default function Layout() {
                 }}
             />
             <Footer />
+            <HiddenButton onClick={postOrder} data-testid="postOrder"></HiddenButton>
+            <HiddenButton onClick={getUserId} data-testid="getUserId"></HiddenButton>
+            <HiddenButton onClick={addCart} data-testid="addCart"></HiddenButton>
+            <HiddenButton onClick={updateCart} data-testid="updateCart"></HiddenButton>
+            <HiddenButton onClick={getCart} data-testid="getCart"></HiddenButton>
+            <HiddenButton onClick={addUser} data-testid="addUser"></HiddenButton>
+            <HiddenButton onClick={checkVerification} data-testid="checkVerification"></HiddenButton>
+            <HiddenButton onClick={getShippingData} data-testid="getShippingData"></HiddenButton>
+            <HiddenButton onClick={handleCloseModal} data-testid="handleCloseModal"></HiddenButton>
         </>
     );
 }
