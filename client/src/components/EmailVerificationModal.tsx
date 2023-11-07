@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { OrangeButton } from "./StyledComponents";
 
 const CheckoutModalContainer = styled.div`
@@ -56,8 +56,9 @@ const EmailParagraph = styled.h6`
 `;
 
 interface EmailVerificationModalProps {
-    userId: string; 
+    userId: number; 
     apiBaseUrl: string; 
+    setIsEmailVerificationOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function EmailVerificationModal({ userId, apiBaseUrl }: EmailVerificationModalProps) {
